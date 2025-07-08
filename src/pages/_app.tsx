@@ -4,7 +4,7 @@ import { Provider } from "@/components/ui/provider";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider forcedTheme="light">
+    <Provider defaultTheme="light" forcedTheme="light" storageKey="chakraTheme">
       <Component {...pageProps} />
     </Provider>
   );

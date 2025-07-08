@@ -1,33 +1,15 @@
-import {  Badge, Box, Button, Card, HStack, Image } from "@chakra-ui/react"
-import { FunctionComponent } from "react"
+import PageSidebar from "@/components/PageSidebar";
+import { Box, Text } from "@chakra-ui/react";
+import { FunctionComponent } from "react";
 
-const Page:FunctionComponent = () => {
+const Page: FunctionComponent = () => {
   return (
-    <Card.Root flexDirection="row" overflow="hidden" maxW="xl">
-    <Image
-      objectFit="cover"
-      maxW="200px"
-      src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-      alt="Caffe Latte"
-    />
-    <Box>
-      <Card.Body>
-        <Card.Title mb="2">The perfect latte</Card.Title>
-        <Card.Description>
-          Caffè latte is a coffee beverage of Italian origin made with espresso
-          and steamed milk.
-        </Card.Description>
-        <HStack mt="4">
-          <Badge>Hot</Badge>
-          <Badge>Caffeine</Badge>
-        </HStack>
-      </Card.Body>
-      <Card.Footer>
-        <Button>Buy Latte</Button>
-      </Card.Footer>
-    </Box>
-  </Card.Root>
-  )
-}
+    <PageSidebar>
+      <Box ml={{ base: 0, md: 60 }} p="4" color="black">
+        <Text fontSize="xl">Welcome to my World!</Text>
+      </Box>
+    </PageSidebar>
+  );
+};
 
-export default Page
+export default Page;
