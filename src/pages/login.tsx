@@ -6,7 +6,6 @@ import {
   Group,
   Input,
   Stack,
-  Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -23,12 +22,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Auth>();
+  const { register, handleSubmit, watch } = useForm<Auth>();
 
   const email = watch("email") || "";
   const pass = watch("pass") || "";
