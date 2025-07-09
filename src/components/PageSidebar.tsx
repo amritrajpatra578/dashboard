@@ -41,7 +41,7 @@ const NavList: FunctionComponent = () => {
             role="group"
             cursor="pointer"
             color="black"
-            _hover={{ bg: "cyan.400", color: "white" }}
+            _hover={{ bg: "black", color: "white" }}
           >
             <Icon mr="4" fontSize="16" as={link.icon} />
             {link.name}
@@ -71,7 +71,7 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({
       >
         <Flex h="20" align="center" mx="8" justify="center">
           <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-            Logo
+            Car
           </Text>
         </Flex>
         <NavList />
