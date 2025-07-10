@@ -18,7 +18,7 @@ const Page: FunctionComponent = () => {
         >
           <Stack gap={4}>
             <Heading as="h1" size="2xl" color="black">
-              🚗 Welcome to Amritraj's Carlist!
+              🚗 Welcome to Amritraj&apos;s Carlist!
             </Heading>
             <Text fontSize="lg" color="gray.600">
               Manage, edit, and review car rental listings effortlessly.
