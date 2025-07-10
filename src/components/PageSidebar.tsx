@@ -23,6 +23,9 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import Link from "next/link";
+import { useAuthStorage } from "@/hooks";
+import { useRouter } from "next/router";
+import LoadingScreen from "./LoadingScreen";
 
 const LinkItems: {
   name: string;
@@ -36,40 +39,53 @@ const LinkItems: {
   { name: "Settings", icon: FiSettings, url: "#" },
 ];
 
-const NavList: FunctionComponent = () => {
-  return (
-    <Box>
-      {LinkItems.map((link) => (
-        <Link href={link.url} key={link.name}>
-          <Flex
-            key={link.name}
-            align="center"
-            p="4"
-            mx="4"
-            borderRadius="lg"
-            role="group"
-            cursor="pointer"
-            color="black"
-            _hover={{ bg: "black", color: "white" }}
-          >
-            <Icon mr="4" fontSize="16" as={link.icon} />
-            {link.name}
-          </Flex>
-        </Link>
-      ))}
-    </Box>
-  );
-};
+const NavList: FunctionComponent = () => (
+  <Box>
+    {LinkItems.map((link) => (
+      <Link href={link.url} key={link.name}>
+        <Flex
+          align="center"
+          p="4"
+          mx="4"
+          borderRadius="lg"
+          role="group"
+          cursor="pointer"
+          color="black"
+          _hover={{ bg: "black", color: "white" }}
+        >
+          <Icon mr="4" fontSize="16" as={link.icon} />
+          {link.name}
+        </Flex>
+      </Link>
+    ))}
+  </Box>
+);
 
 const PageSidebar: FunctionComponent<PropsWithChildren> = ({
   children: Children,
 }) => {
+  const { auth } = useAuthStorage();
   const [open, setOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const { isReady, push } = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (isReady && !auth.isAllowed) {
+      push("/login");
+    }
+  }, [isReady, auth.isAllowed, push]);
+
+  if (!isReady || !isClient) {
+    return <LoadingScreen />;
+  }
+
+  if (!auth.isAllowed) {
+    return null;
+  }
 
   return (
     <Box minH="100vh" bg="gray.50">
