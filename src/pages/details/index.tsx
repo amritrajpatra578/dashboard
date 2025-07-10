@@ -10,8 +10,10 @@ interface Props {
   initialCars: Car[];
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const res = await axios.get("http://localhost:3000/api/listings"); // Use absolute path in production
+export const getServerSideProps: GetServerSideProps = async () => {
+  const url = "http://localhost:3000/api/listings"; // Use absolute path in production
+
+  const res = await axios.get(url);
   return {
     props: {
       initialCars: res.data,
