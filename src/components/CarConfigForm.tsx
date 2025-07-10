@@ -24,6 +24,8 @@ const carTypes = createListCollection({
     { label: "SUV", value: "suv" },
     { label: "Sedan", value: "sedan" },
     { label: "Micro SUV", value: "microSuv" },
+    { label: "Hatchback", value: "hatchback" },
+    { label: "Mpv", value: "mpv" },
   ],
 });
 
