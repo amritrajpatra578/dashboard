@@ -50,20 +50,18 @@ export const useAuthStorage = () => {
     const stored = localStorage.getItem(AUTH_STORAGE_KEY);
     if (stored) {
       try {
-        setAuth(JSON.parse(stored));
-      } catch {
-        setAuth({ isAllowed: false, email: "", pass: "" });
+        const parsed = JSON.parse(stored);
+        setAuth(parsed);
+      } catch (err) {
+        console.log("failed to fetch auth data from local storage:", err);
       }
     }
   }, []);
 
-  const updateAuth = (newAuth: Auth) => {
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(newAuth));
-    setAuth(newAuth);
+  const updateAuth = (data: Auth) => {
+    setAuth(data);
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
   };
 
-  return {
-    auth,
-    updateAuth,
-  };
+  return { auth, updateAuth };
 };

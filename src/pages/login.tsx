@@ -18,7 +18,6 @@ import { useAuthStorage } from "@/hooks";
 
 const LoginPage: FunctionComponent = () => {
   const { register, handleSubmit, watch } = useForm<Auth>();
-
   const { push, isReady } = useRouter();
   const { updateAuth, auth } = useAuthStorage();
 
@@ -26,14 +25,13 @@ const LoginPage: FunctionComponent = () => {
   const [mounted, setMounted] = useState(false);
   const [attempted, setAttempted] = useState(false);
 
-  const email = watch("email");
-  const pass = watch("pass");
+  const email = watch("email") || "";
+  const pass = watch("pass") || "";
   const emptyFields = email === "" || pass === "";
 
   const onSubmit = handleSubmit((data) => {
     const isAllowed = data.email === "test" && data.pass === "test";
     updateAuth({ ...data, isAllowed });
-
     setAttempted(true);
 
     if (isAllowed) {
@@ -63,9 +61,10 @@ const LoginPage: FunctionComponent = () => {
         <Box bg="white" p={8} rounded="lg" boxShadow="lg">
           {showError && (
             <Text color="red.500" fontWeight="bold" fontSize="lg">
-              Sorry you are not allowed
+              Sorry, you are not allowed
             </Text>
           )}
+
           <Stack gap={6}>
             <Field.Root>
               <Field.Label>

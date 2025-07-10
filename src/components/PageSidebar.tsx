@@ -27,11 +27,7 @@ import { useAuthStorage } from "@/hooks";
 import { useRouter } from "next/router";
 import LoadingScreen from "./LoadingScreen";
 
-const LinkItems: {
-  name: string;
-  icon: IconType;
-  url: string;
-}[] = [
+const LinkItems: { name: string; icon: IconType; url: string }[] = [
   { name: "Details", icon: FiHome, url: "details" },
   { name: "Trending", icon: FiTrendingUp, url: "#" },
   { name: "Explore", icon: FiCompass, url: "#" },
@@ -61,31 +57,24 @@ const NavList: FunctionComponent = () => (
   </Box>
 );
 
-const PageSidebar: FunctionComponent<PropsWithChildren> = ({
-  children: Children,
-}) => {
+const PageSidebar: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const { auth } = useAuthStorage();
-  const [open, setOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const { isReady, push } = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (isReady && !auth.isAllowed) {
-      push("/login");
+    if (mounted && !auth.isAllowed) {
+      router.replace("/login");
     }
-  }, [isReady, auth.isAllowed, push]);
+  }, [auth.isAllowed, mounted, router]);
 
-  if (!isReady || !isClient) {
-    return <LoadingScreen />;
-  }
-
-  if (!auth.isAllowed) {
-    return null;
-  }
+  if (!mounted) return <LoadingScreen />;
+  if (!auth.isAllowed) return null;
 
   return (
     <Box minH="100vh" bg="gray.50">
@@ -107,33 +96,31 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({
         <NavList />
       </Box>
 
-      {isClient && (
-        <Drawer.Root
-          open={open}
-          closeOnEscape
-          closeOnInteractOutside
-          onOpenChange={(isOpen) => setOpen(isOpen.open)}
-          placement="start"
-          size="xs"
-        >
-          <Drawer.Backdrop />
-          <Drawer.Positioner>
-            <Drawer.Content bg="white" color="black">
-              <Drawer.CloseTrigger asChild>
-                <CloseButton size="sm" position="absolute" top="4" right="4" />
-              </Drawer.CloseTrigger>
-              <Drawer.Header>
-                <Text fontSize="lg" fontWeight="bold">
-                  Menu
-                </Text>
-              </Drawer.Header>
-              <Drawer.Body p={0}>
-                <NavList />
-              </Drawer.Body>
-            </Drawer.Content>
-          </Drawer.Positioner>
-        </Drawer.Root>
-      )}
+      <Drawer.Root
+        open={drawerOpen}
+        closeOnEscape
+        closeOnInteractOutside
+        onOpenChange={(isOpen) => setDrawerOpen(isOpen.open)}
+        placement="start"
+        size="xs"
+      >
+        <Drawer.Backdrop />
+        <Drawer.Positioner>
+          <Drawer.Content bg="white" color="black">
+            <Drawer.CloseTrigger asChild>
+              <CloseButton size="sm" position="absolute" top="4" right="4" />
+            </Drawer.CloseTrigger>
+            <Drawer.Header>
+              <Text fontSize="lg" fontWeight="bold">
+                Menu
+              </Text>
+            </Drawer.Header>
+            <Drawer.Body p={0}>
+              <NavList />
+            </Drawer.Body>
+          </Drawer.Content>
+        </Drawer.Positioner>
+      </Drawer.Root>
 
       <Flex
         display={{ base: "flex", md: "none" }}
@@ -148,7 +135,7 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({
         <IconButton
           variant="outline"
           aria-label="Open menu"
-          onClick={() => setOpen(true)}
+          onClick={() => setDrawerOpen(true)}
         >
           <FiMenu />
         </IconButton>
@@ -157,7 +144,7 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({
         </Text>
       </Flex>
 
-      {Children}
+      {children}
     </Box>
   );
 };

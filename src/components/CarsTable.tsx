@@ -1,3 +1,6 @@
+import { Car } from "@/car";
+import { toaster } from "@/components/ui/toaster";
+import { useCarStorage } from "@/hooks";
 import {
   ButtonGroup,
   Heading,
@@ -6,14 +9,9 @@ import {
   Table,
   Text,
 } from "@chakra-ui/react";
-import { FunctionComponent, useEffect, useState } from "react";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { cars as initialCars, Car } from "@/car";
-import { toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/router";
-import { useCarStorage } from "@/hooks";
-
-const STORAGE_KEY = "cars_data";
+import { FunctionComponent, useState } from "react";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 const CarsTable: FunctionComponent = () => {
   const { cars, editCar } = useCarStorage();
