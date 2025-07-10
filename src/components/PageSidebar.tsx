@@ -22,24 +22,22 @@ import {
   FiCompass,
   FiHome,
   FiMenu,
-  FiSettings,
   FiStar,
   FiTrendingUp,
 } from "react-icons/fi";
 import LoadingScreen from "./LoadingScreen";
 
 const LinkItems: { name: string; icon: IconType; url: string }[] = [
-  { name: "Details", icon: FiHome, url: "details" },
-  { name: "Trending", icon: FiTrendingUp, url: "#" },
+  { name: "Home", icon: FiHome, url: "/" },
+  { name: "Details", icon: FiTrendingUp, url: "/details" },
   { name: "Explore", icon: FiCompass, url: "#" },
   { name: "Favourites", icon: FiStar, url: "#" },
-  { name: "Settings", icon: FiSettings, url: "#" },
 ];
 
 const NavList: FunctionComponent = () => (
   <Box>
     {LinkItems.map((link) => (
-      <Link href={link.url} key={link.name}>
+      <Link href={link.url} passHref key={link.name}>
         <Flex
           align="center"
           p="4"
@@ -92,9 +90,11 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({ children }) => {
         <Flex direction="column" justify="space-between" h="full">
           <Box>
             <Flex h="20" align="center" mx="8" justify="center">
-              <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-                Car
-              </Text>
+              <Link href={"/"} passHref>
+                <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+                  Carlist
+                </Text>
+              </Link>
             </Flex>
             <NavList />
           </Box>
@@ -159,7 +159,7 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({ children }) => {
           <FiMenu />
         </IconButton>
         <Text ml="4" fontSize="lg" fontFamily="monospace" fontWeight="bold">
-          Logo
+          Carlist
         </Text>
       </Flex>
 
