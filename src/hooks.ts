@@ -1,54 +1,55 @@
 import { useEffect, useState } from "react";
-import { Auth, Car } from "@/car";
+import { Auth, Car, cars as defaultCars } from "@/car";
 
 const STORAGE_KEY = "cars_data";
 
 export const useCarStorage = (initialCars?: Car[]) => {
-  const fallbackCars: Car[] = initialCars ?? [];
-
-  const [cars, setCars] = useState<Car[]>(fallbackCars);
+  const [cars, setCars] = useState<Car[]>([]);
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
+
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
           setCars(parsed);
-        } else {
-          throw new Error("Parsed data is not an array");
+          return;
         }
       } catch {
-        console.warn("Failed to parse stored cars, using fallback");
-        setCars(fallbackCars);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(fallbackCars));
+        console.warn("Failed to load cars from localStorage");
       }
-    } else {
-      setCars(fallbackCars);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(fallbackCars));
     }
-  }, [initialCars]);
+
+    const fallback = initialCars ?? defaultCars;
+    setCars(fallback);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(fallback));
+  }, []);
 
   const updateCarStatus = (id: number, status: Car["status"]) => {
-    const updatedCars = cars.map((car) =>
+    const updated = cars.map((car) =>
       car.id === id ? { ...car, status } : car
     );
-    setCars(updatedCars);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCars));
+    setCars(updated);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   };
 
   const editCar = (updatedCar: Car) => {
-    const updatedCars = cars.map((car) =>
+    const updated = cars.map((car) =>
       car.id === updatedCar.id ? updatedCar : car
     );
-    setCars(updatedCars);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCars));
+    setCars(updated);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   };
 
-  const getCarById = (id: number): Car | undefined =>
-    cars.find((car) => car.id === id);
+  const getCarById = (id: number) => cars.find((car) => car.id === id);
 
-  return { cars, editCar, getCarById, updateCarStatus };
+  return {
+    cars,
+    editCar,
+    updateCarStatus,
+    getCarById,
+  };
 };
 
 const AUTH_STORAGE_KEY = "auth_data";

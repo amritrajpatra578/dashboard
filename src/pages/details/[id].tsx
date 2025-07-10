@@ -1,34 +1,33 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
-import { Car, cars } from "@/car";
+import { Car, cars as defaultCars } from "@/car";
 import PageSidebar from "@/components/PageSidebar";
 import CarConfigForm from "@/components/CarConfigForm";
 import { useCarStorage } from "@/hooks";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function EditPage() {
   const router = useRouter();
-  const { isReady, query } = router;
-  const id = Number(query.id);
+  const id = Number(router.query.id);
 
-  const { getCarById } = useCarStorage(cars); // use default cars only if nothing is in localStorage
+  const { cars, getCarById } = useCarStorage(defaultCars);
   const [car, setCar] = useState<Car | null>(null);
 
   useEffect(() => {
-    if (isReady && !isNaN(id)) {
+    if (router.isReady && cars.length > 0) {
       const found = getCarById(id);
       setCar(found || null);
-
-      console.log({ found });
     }
-  }, [id, isReady]);
+  }, [router.isReady, id, cars]);
 
-  if (!isReady) return <Box p="8">Loading...</Box>;
-  if (!car) return <Box p="8">Car not found</Box>;
+  if (!router.isReady || cars.length === 0 || car === null) {
+    return <LoadingScreen />;
+  }
 
   return (
     <PageSidebar>
-      <Box ml={{ base: 0, md: 60 }} p="4" color="black">
+      <Box ml={{ base: 0, md: 60 }} p="4">
         <CarConfigForm carConfig={car} />
       </Box>
     </PageSidebar>
