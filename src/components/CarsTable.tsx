@@ -34,7 +34,8 @@ const CarsTable: FunctionComponent<Props> = ({ initialCars }) => {
 
   const [page, setPage] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
-  const itemsPerPage = 7;
+
+  const itemsPerPage = 12;
 
   const filteredCars =
     selectedStatus === "all"

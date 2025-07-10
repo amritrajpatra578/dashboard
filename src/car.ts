@@ -1,4 +1,10 @@
-export type CarType = "coupe" | "suv" | "sedan" | "microSuv";
+export type CarType =
+  | "coupe"
+  | "suv"
+  | "sedan"
+  | "microSuv"
+  | "hatchback"
+  | "mpv";
 
 export type CarStatus = "pending" | "approved" | "rejected";
 
@@ -90,6 +96,86 @@ export const cars: Car[] = [
     model: "Harrier",
     type: "suv",
     price: 1500000,
+    status: "approved",
+  },
+  {
+    id: 11,
+    brand: "Renault",
+    model: "Kwid",
+    type: "hatchback",
+    price: 450000,
+    status: "pending",
+  },
+  {
+    id: 12,
+    brand: "Skoda",
+    model: "Slavia",
+    type: "sedan",
+    price: 1200000,
+    status: "approved",
+  },
+  {
+    id: 13,
+    brand: "Volkswagen",
+    model: "Virtus",
+    type: "sedan",
+    price: 1150000,
+    status: "pending",
+  },
+  {
+    id: 14,
+    brand: "MG",
+    model: "Hector",
+    type: "suv",
+    price: 1600000,
+    status: "rejected",
+  },
+  {
+    id: 15,
+    brand: "Nissan",
+    model: "Magnite",
+    type: "microSuv",
+    price: 750000,
+    status: "approved",
+  },
+  {
+    id: 16,
+    brand: "Mahindra",
+    model: "XUV700",
+    type: "suv",
+    price: 1800000,
+    status: "pending",
+  },
+  {
+    id: 17,
+    brand: "Tata",
+    model: "Punch",
+    type: "microSuv",
+    price: 700000,
+    status: "approved",
+  },
+  {
+    id: 18,
+    brand: "Hyundai",
+    model: "Venue",
+    type: "suv",
+    price: 950000,
+    status: "rejected",
+  },
+  {
+    id: 19,
+    brand: "Maruti Suzuki",
+    model: "Baleno",
+    type: "hatchback",
+    price: 750000,
+    status: "approved",
+  },
+  {
+    id: 20,
+    brand: "Toyota",
+    model: "Innova HyCross",
+    type: "mpv",
+    price: 1900000,
     status: "approved",
   },
 ];
