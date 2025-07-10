@@ -49,6 +49,7 @@ const CarConfigForm = ({ carConfig }: CarConfigFormProps) => {
   const emptyFields = !brand || !model || !type || price < 0;
 
   const onSubmit = handleSubmit((data) => {
+    data.status = "pending";
     editCar(data);
     push("/details");
   });
