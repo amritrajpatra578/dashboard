@@ -1,4 +1,9 @@
-import React, { FunctionComponent, PropsWithChildren, useState } from "react";
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import {
   Box,
   Flex,
@@ -19,19 +24,23 @@ import {
 import { IconType } from "react-icons";
 import Link from "next/link";
 
-const LinkItems: { name: string; icon: IconType }[] = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
+const LinkItems: {
+  name: string;
+  icon: IconType;
+  url: string;
+}[] = [
+  { name: "Details", icon: FiHome, url: "details" },
+  { name: "Trending", icon: FiTrendingUp, url: "#" },
+  { name: "Explore", icon: FiCompass, url: "#" },
+  { name: "Favourites", icon: FiStar, url: "#" },
+  { name: "Settings", icon: FiSettings, url: "#" },
 ];
 
 const NavList: FunctionComponent = () => {
   return (
     <Box>
       {LinkItems.map((link) => (
-        <Link href="#" key={link.name}>
+        <Link href={link.url} key={link.name}>
           <Flex
             key={link.name}
             align="center"
@@ -56,6 +65,11 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({
   children: Children,
 }) => {
   const [open, setOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Box minH="100vh" bg="gray.50">
@@ -77,31 +91,33 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({
         <NavList />
       </Box>
 
-      <Drawer.Root
-        open={open}
-        closeOnEscape
-        closeOnInteractOutside
-        onOpenChange={(isOpen) => setOpen(isOpen.open)}
-        placement="start"
-        size="xs"
-      >
-        <Drawer.Backdrop />
-        <Drawer.Positioner>
-          <Drawer.Content bg="white" color="black">
-            <Drawer.CloseTrigger asChild>
-              <CloseButton size="sm" position="absolute" top="4" right="4" />
-            </Drawer.CloseTrigger>
-            <Drawer.Header>
-              <Text fontSize="lg" fontWeight="bold">
-                Menu
-              </Text>
-            </Drawer.Header>
-            <Drawer.Body p={0}>
-              <NavList />
-            </Drawer.Body>
-          </Drawer.Content>
-        </Drawer.Positioner>
-      </Drawer.Root>
+      {isClient && (
+        <Drawer.Root
+          open={open}
+          closeOnEscape
+          closeOnInteractOutside
+          onOpenChange={(isOpen) => setOpen(isOpen.open)}
+          placement="start"
+          size="xs"
+        >
+          <Drawer.Backdrop />
+          <Drawer.Positioner>
+            <Drawer.Content bg="white" color="black">
+              <Drawer.CloseTrigger asChild>
+                <CloseButton size="sm" position="absolute" top="4" right="4" />
+              </Drawer.CloseTrigger>
+              <Drawer.Header>
+                <Text fontSize="lg" fontWeight="bold">
+                  Menu
+                </Text>
+              </Drawer.Header>
+              <Drawer.Body p={0}>
+                <NavList />
+              </Drawer.Body>
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Drawer.Root>
+      )}
 
       <Flex
         display={{ base: "flex", md: "none" }}
