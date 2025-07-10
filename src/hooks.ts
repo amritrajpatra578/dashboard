@@ -63,5 +63,10 @@ export const useAuthStorage = () => {
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
   };
 
-  return { auth, updateAuth };
+  const logout = () => {
+    setAuth({ isAllowed: false, email: "", pass: "" });
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+  };
+
+  return { auth, updateAuth, logout };
 };

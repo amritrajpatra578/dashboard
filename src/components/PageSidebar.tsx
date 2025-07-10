@@ -12,6 +12,7 @@ import {
   Text,
   CloseButton,
   Drawer,
+  Button,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -58,7 +59,7 @@ const NavList: FunctionComponent = () => (
 );
 
 const PageSidebar: FunctionComponent<PropsWithChildren> = ({ children }) => {
-  const { auth } = useAuthStorage();
+  const { auth, logout } = useAuthStorage();
   const [mounted, setMounted] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
@@ -88,12 +89,30 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({ children }) => {
         pos="fixed"
         h="full"
       >
-        <Flex h="20" align="center" mx="8" justify="center">
-          <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-            Car
-          </Text>
+        <Flex direction="column" justify="space-between" h="full">
+          <Box>
+            <Flex h="20" align="center" mx="8" justify="center">
+              <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+                Car
+              </Text>
+            </Flex>
+            <NavList />
+          </Box>
+
+          <Box p="4">
+            <Button
+              colorScheme="red"
+              size="sm"
+              w="full"
+              onClick={() => {
+                logout();
+                router.replace("/login");
+              }}
+            >
+              Logout
+            </Button>
+          </Box>
         </Flex>
-        <NavList />
       </Box>
 
       <Drawer.Root
