@@ -30,7 +30,8 @@ const LoginPage: FunctionComponent = () => {
   const emptyFields = email === "" || pass === "";
 
   const onSubmit = handleSubmit((data) => {
-    const isAllowed = data.email === "test" && data.pass === "test";
+    const isAllowed =
+      data.email === "amritrajpatra578@gmail.com" && data.pass === "amritraj";
     updateAuth({ ...data, isAllowed });
     setAttempted(true);
 
