@@ -1,5 +1,4 @@
-import { Car } from "@/car";
-import { toaster } from "@/components/ui/toaster";
+import { CarStatus } from "@/car";
 import { useCarStorage } from "@/hooks";
 import {
   ButtonGroup,
@@ -16,7 +15,6 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 const CarsTable: FunctionComponent = () => {
   const { cars, editCar } = useCarStorage();
   const itemsPerPage = 7;
-  //   const [cars, setCars] = useState<Car[]>([]);
   const [page, setPage] = useState<number>(1);
   const router = useRouter();
 
@@ -25,30 +23,23 @@ const CarsTable: FunctionComponent = () => {
     page * itemsPerPage
   );
 
-  const totalPages: number = Math.ceil(cars.length / itemsPerPage);
+  const totalPages = Math.ceil(cars.length / itemsPerPage);
 
-  const updateStatus = (id: number, status: Car["status"]) => {
-    const target = cars.find((c) => c.id === id);
-    if (!target) return;
+  const updateStatus = (id: number, status: CarStatus) => {
+    const car = cars.find((c) => c.id === id);
+    if (!car) return;
 
-    editCar({ ...target, status });
+    editCar({ ...car, status });
+  };
 
-    toaster.create({
-      description: `Car ID ${id} updated to ${status}`,
-      type:
-        status === "approved"
-          ? "info"
-          : status === "rejected"
-          ? "warning"
-          : "success",
-    });
-
-    if (status === "edit") router.push(`/details/${id}`);
+  const handleEdit = (id: number) => {
+    router.push(`/details/${id}`);
   };
 
   return (
     <Stack width="full" gap="5">
       <Heading size="xl">Cars Details</Heading>
+
       <Table.Root size="sm" variant="outline" striped>
         <Table.Header>
           <Table.Row>
@@ -60,6 +51,7 @@ const CarsTable: FunctionComponent = () => {
             <Table.ColumnHeader textAlign="center">Actions</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
+
         <Table.Body>
           {paginatedItems.map((item) => (
             <Table.Row key={item.id}>
@@ -97,7 +89,7 @@ const CarsTable: FunctionComponent = () => {
                   </IconButton>
                   <IconButton
                     aria-label={`Edit ${item.brand}`}
-                    onClick={() => updateStatus(item.id, "edit")}
+                    onClick={() => handleEdit(item.id)}
                   >
                     <Text>✎</Text>
                   </IconButton>

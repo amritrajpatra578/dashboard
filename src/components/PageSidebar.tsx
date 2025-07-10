@@ -1,31 +1,31 @@
-import React, {
+import { useAuthStorage } from "@/hooks";
+import {
+  Box,
+  Button,
+  CloseButton,
+  Drawer,
+  Flex,
+  Icon,
+  IconButton,
+  Text,
+} from "@chakra-ui/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import {
   FunctionComponent,
   PropsWithChildren,
   useEffect,
   useState,
 } from "react";
-import {
-  Box,
-  Flex,
-  Icon,
-  IconButton,
-  Text,
-  CloseButton,
-  Drawer,
-  Button,
-} from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-} from "react-icons/fi";
 import { IconType } from "react-icons";
-import Link from "next/link";
-import { useAuthStorage } from "@/hooks";
-import { useRouter } from "next/router";
+import {
+  FiCompass,
+  FiHome,
+  FiMenu,
+  FiSettings,
+  FiStar,
+  FiTrendingUp,
+} from "react-icons/fi";
 import LoadingScreen from "./LoadingScreen";
 
 const LinkItems: { name: string; icon: IconType; url: string }[] = [
@@ -65,14 +65,14 @@ const PageSidebar: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
     if (mounted && !auth.isAllowed) {
       router.replace("/login");
     }
   }, [auth.isAllowed, mounted, router]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) return <LoadingScreen />;
   if (!auth.isAllowed) return null;
