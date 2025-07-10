@@ -93,3 +93,9 @@ export const cars: Car[] = [
     status: "approved",
   },
 ];
+
+export interface Auth {
+  isAllowed: boolean;
+  email: string;
+  pass: string;
+}
