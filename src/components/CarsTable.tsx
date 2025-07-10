@@ -1,5 +1,4 @@
-import { CarStatus } from "@/car";
-import { useCarStorage } from "@/hooks";
+import { Car, CarStatus } from "@/car";
 import {
   ButtonGroup,
   Heading,
@@ -11,12 +10,18 @@ import {
 import { useRouter } from "next/router";
 import { FunctionComponent, useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { useCarStorage } from "@/hooks";
+import axios from "axios";
 
-const CarsTable: FunctionComponent = () => {
-  const { cars, editCar } = useCarStorage();
-  const itemsPerPage = 7;
-  const [page, setPage] = useState<number>(1);
+interface Props {
+  initialCars: Car[];
+}
+
+const CarsTable: FunctionComponent<Props> = ({ initialCars }) => {
+  const { cars, updateCarStatus } = useCarStorage(initialCars);
   const router = useRouter();
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 7;
 
   const paginatedItems = cars.slice(
     (page - 1) * itemsPerPage,
@@ -25,11 +30,13 @@ const CarsTable: FunctionComponent = () => {
 
   const totalPages = Math.ceil(cars.length / itemsPerPage);
 
-  const updateStatus = (id: number, status: CarStatus) => {
-    const car = cars.find((c) => c.id === id);
-    if (!car) return;
-
-    editCar({ ...car, status });
+  const updateStatus = async (id: number, status: CarStatus) => {
+    try {
+      await axios.put(`/api/listings/${id}/status`, { status });
+      updateCarStatus(id, status); // Only update status locally
+    } catch (err) {
+      console.error("Status update failed:", err);
+    }
   };
 
   const handleEdit = (id: number) => {
@@ -39,7 +46,6 @@ const CarsTable: FunctionComponent = () => {
   return (
     <Stack width="full" gap="5">
       <Heading size="xl">Cars Details</Heading>
-
       <Table.Root size="sm" variant="outline" striped>
         <Table.Header>
           <Table.Row>
@@ -51,7 +57,6 @@ const CarsTable: FunctionComponent = () => {
             <Table.ColumnHeader textAlign="center">Actions</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
-
         <Table.Body>
           {paginatedItems.map((item) => (
             <Table.Row key={item.id}>
@@ -76,22 +81,22 @@ const CarsTable: FunctionComponent = () => {
               <Table.Cell textAlign="center">
                 <ButtonGroup size="xs" variant="outline" gap="1">
                   <IconButton
-                    aria-label={`Approve ${item.brand}`}
+                    aria-label="Approve"
                     onClick={() => updateStatus(item.id, "approved")}
                   >
-                    <Text>✓</Text>
+                    ✓
                   </IconButton>
                   <IconButton
-                    aria-label={`Reject ${item.brand}`}
+                    aria-label="Reject"
                     onClick={() => updateStatus(item.id, "rejected")}
                   >
-                    <Text>✕</Text>
+                    ✕
                   </IconButton>
                   <IconButton
-                    aria-label={`Edit ${item.brand}`}
+                    aria-label="Edit"
                     onClick={() => handleEdit(item.id)}
                   >
-                    <Text>✎</Text>
+                    ✎
                   </IconButton>
                 </ButtonGroup>
               </Table.Cell>
@@ -102,7 +107,7 @@ const CarsTable: FunctionComponent = () => {
 
       <ButtonGroup variant="ghost" size="sm" gap={2} justifyContent="center">
         <IconButton
-          aria-label="Previous page"
+          aria-label="Previous"
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
         >
@@ -111,7 +116,7 @@ const CarsTable: FunctionComponent = () => {
         {Array.from({ length: totalPages }).map((_, index) => (
           <IconButton
             key={index}
-            aria-label={`Go to page ${index + 1}`}
+            aria-label={`Page ${index + 1}`}
             onClick={() => setPage(index + 1)}
             variant={page === index + 1 ? "solid" : "ghost"}
           >
@@ -119,7 +124,7 @@ const CarsTable: FunctionComponent = () => {
           </IconButton>
         ))}
         <IconButton
-          aria-label="Next page"
+          aria-label="Next"
           disabled={page === totalPages}
           onClick={() => setPage(page + 1)}
         >
