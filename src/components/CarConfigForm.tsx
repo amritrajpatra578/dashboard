@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -14,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import LoadingScreen from "@/components/LoadingScreen";
 import { Car } from "@/car";
+import { useCarStorage } from "@/hooks";
 
 const carTypes = createListCollection({
   items: [
@@ -29,6 +32,7 @@ export interface CarConfigFormProps {
 }
 
 const CarConfigForm = ({ carConfig }: CarConfigFormProps) => {
+  const { editCar } = useCarStorage();
   const [mounted, setMounted] = useState(false);
   const { push, isReady } = useRouter();
 
@@ -45,7 +49,7 @@ const CarConfigForm = ({ carConfig }: CarConfigFormProps) => {
   const emptyFields = !brand || !model || !type || price < 0;
 
   const onSubmit = handleSubmit((data) => {
-    console.log("Car form Submitted:", data);
+    editCar(data);
     push("/details");
   });
 

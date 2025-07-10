@@ -20,7 +20,8 @@
     "react-hook-form": "^7.60.0",
     "react-icons": "^5.5.0",
     "serve": "^14.2.4",
-    "snippet": "^0.1.0"
+    "snippet": "^0.1.0",
+    "toaster": "^0.1.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -1,26 +1,52 @@
-import { Text } from "@chakra-ui/react";
-import { FunctionComponent, useState } from "react";
 import {
   ButtonGroup,
   Heading,
   IconButton,
   Stack,
   Table,
+  Text,
 } from "@chakra-ui/react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { cars } from "@/car";
+import { cars as initialCars, Car } from "@/car";
+import { toaster } from "@/components/ui/toaster";
+import { useRouter } from "next/router";
+import { useCarStorage } from "@/hooks";
+
+const STORAGE_KEY = "cars_data";
 
 const CarsTable: FunctionComponent = () => {
+  const { cars, editCar } = useCarStorage();
   const itemsPerPage = 7;
-
+  //   const [cars, setCars] = useState<Car[]>([]);
   const [page, setPage] = useState<number>(1);
+  const router = useRouter();
 
   const paginatedItems = cars.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage
-  ); // Slice items based on the current page
+  );
 
   const totalPages: number = Math.ceil(cars.length / itemsPerPage);
+
+  const updateStatus = (id: number, status: Car["status"]) => {
+    const target = cars.find((c) => c.id === id);
+    if (!target) return;
+
+    editCar({ ...target, status });
+
+    toaster.create({
+      description: `Car ID ${id} updated to ${status}`,
+      type:
+        status === "approved"
+          ? "info"
+          : status === "rejected"
+          ? "warning"
+          : "success",
+    });
+
+    if (status === "edit") router.push(`/details/${id}`);
+  };
 
   return (
     <Stack width="full" gap="5">
@@ -31,8 +57,8 @@ const CarsTable: FunctionComponent = () => {
             <Table.ColumnHeader>Brand</Table.ColumnHeader>
             <Table.ColumnHeader>Model</Table.ColumnHeader>
             <Table.ColumnHeader>Type</Table.ColumnHeader>
-            <Table.ColumnHeader>Condition</Table.ColumnHeader>
             <Table.ColumnHeader>Price</Table.ColumnHeader>
+            <Table.ColumnHeader>Status</Table.ColumnHeader>
             <Table.ColumnHeader textAlign="center">Actions</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
@@ -42,18 +68,40 @@ const CarsTable: FunctionComponent = () => {
               <Table.Cell>{item.brand}</Table.Cell>
               <Table.Cell>{item.model}</Table.Cell>
               <Table.Cell>{item.type}</Table.Cell>
-              <Table.Cell>{item.condition}</Table.Cell>
               <Table.Cell>{item.price}</Table.Cell>
+              <Table.Cell>
+                <Text
+                  fontWeight="bold"
+                  color={
+                    item.status === "approved"
+                      ? "green.500"
+                      : item.status === "rejected"
+                      ? "red.500"
+                      : "orange.500"
+                  }
+                >
+                  {item.status}
+                </Text>
+              </Table.Cell>
               <Table.Cell textAlign="center">
                 <ButtonGroup size="xs" variant="outline" gap="1">
-                  <IconButton aria-label={`Approve ${item.brand}`}>
-                    {<Text>✓</Text>}
+                  <IconButton
+                    aria-label={`Approve ${item.brand}`}
+                    onClick={() => updateStatus(item.id, "approved")}
+                  >
+                    <Text>✓</Text>
                   </IconButton>
-                  <IconButton aria-label={`Reject ${item.brand}`}>
-                    {<Text>✕</Text>}
+                  <IconButton
+                    aria-label={`Reject ${item.brand}`}
+                    onClick={() => updateStatus(item.id, "rejected")}
+                  >
+                    <Text>✕</Text>
                   </IconButton>
-                  <IconButton aria-label={`Edit ${item.brand}`}>
-                    {<Text>✎</Text>}
+                  <IconButton
+                    aria-label={`Edit ${item.brand}`}
+                    onClick={() => updateStatus(item.id, "edit")}
+                  >
+                    <Text>✎</Text>
                   </IconButton>
                 </ButtonGroup>
               </Table.Cell>
@@ -62,14 +110,13 @@ const CarsTable: FunctionComponent = () => {
         </Table.Body>
       </Table.Root>
 
-      {/* table pagination */}
       <ButtonGroup variant="ghost" size="sm" gap={2} justifyContent="center">
         <IconButton
           aria-label="Previous page"
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
         >
-          {<LuChevronLeft />}
+          <LuChevronLeft />
         </IconButton>
         {Array.from({ length: totalPages }).map((_, index) => (
           <IconButton
@@ -86,7 +133,7 @@ const CarsTable: FunctionComponent = () => {
           disabled={page === totalPages}
           onClick={() => setPage(page + 1)}
         >
-          {<LuChevronRight />}
+          <LuChevronRight />
         </IconButton>
       </ButtonGroup>
     </Stack>
