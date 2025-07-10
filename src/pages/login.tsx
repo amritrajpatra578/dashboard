@@ -6,42 +6,50 @@ import {
   Group,
   Input,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
+import { Auth } from "@/car";
+import { useAuthStorage } from "@/hooks";
 
-interface Auth {
-  email: string;
-  pass: string;
-}
-
-const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
+const LoginPage: FunctionComponent = () => {
   const { register, handleSubmit, watch } = useForm<Auth>();
 
-  const email = watch("email") || "";
-  const pass = watch("pass") || "";
-  const emptyFields = !email || !pass;
-
   const { push, isReady } = useRouter();
+  const { updateAuth, auth } = useAuthStorage();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [attempted, setAttempted] = useState(false);
+
+  const email = watch("email");
+  const pass = watch("pass");
+  const emptyFields = email === "" || pass === "";
 
   const onSubmit = handleSubmit((data) => {
-    console.log("Form Submitted: ", data);
-    push("/");
+    const isAllowed = data.email === "test" && data.pass === "test";
+    updateAuth({ ...data, isAllowed });
+
+    setAttempted(true);
+
+    if (isAllowed) {
+      push("/");
+    }
   });
 
   useEffect(() => {
     setMounted(true);
-  }, [isReady, mounted]);
+  }, [isReady]);
 
   if (!mounted || !isReady) {
     return <LoadingScreen />;
   }
+
+  const showError = attempted && !auth.isAllowed && !emptyFields;
 
   return (
     <Flex
@@ -53,6 +61,11 @@ const LoginPage = () => {
     >
       <Stack gap={8} maxW="lg" py={12} px={6} w="full">
         <Box bg="white" p={8} rounded="lg" boxShadow="lg">
+          {showError && (
+            <Text color="red.500" fontWeight="bold" fontSize="lg">
+              Sorry you are not allowed
+            </Text>
+          )}
           <Stack gap={6}>
             <Field.Root>
               <Field.Label>
