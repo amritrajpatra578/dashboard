@@ -11,7 +11,8 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const url = "http://localhost:3000/api/listings"; // Use absolute path in production
+  // const url = "http://localhost:3000/api/listings"; // for local
+  const url = "https://dashboard-smoky-seven-41.vercel.app/api/listings"; // for production
 
   const res = await axios.get(url);
   return {

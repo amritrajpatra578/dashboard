@@ -52,7 +52,7 @@ const CarsTable: FunctionComponent<Props> = ({ initialCars }) => {
   const updateStatus = async (id: number, status: CarStatus) => {
     try {
       await axios.put(`/api/listings/${id}/status`, { status });
-      updateCarStatus(id, status); // Only update status locally
+      updateCarStatus(id, status);
     } catch (err) {
       console.error("Status update failed:", err);
     }

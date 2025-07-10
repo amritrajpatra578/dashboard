@@ -1,4 +1,4 @@
-import { Car, cars } from "@/car";
+import { Car, cars, CarStatus } from "@/car";
 
 export function getListings(): Car[] {
   return cars;
@@ -10,7 +10,7 @@ export function getListingById(id: number): Car | undefined {
 
 export function updateListingStatus(
   id: number,
-  status: Car["status"]
+  status: CarStatus
 ): Car | undefined {
   const listing = cars.find((l) => l.id === id);
 
