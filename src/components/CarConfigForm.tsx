@@ -24,14 +24,6 @@ const carTypes = createListCollection({
   ],
 });
 
-const carConditions = createListCollection({
-  items: [
-    { label: "New", value: "new" },
-    { label: "Fine", value: "fine" },
-    { label: "Bad", value: "bad" },
-  ],
-});
-
 export interface CarConfigFormProps {
   carConfig: Car;
 }
@@ -41,14 +33,7 @@ const CarConfigForm = ({ carConfig }: CarConfigFormProps) => {
   const { push, isReady } = useRouter();
 
   const { register, handleSubmit, setValue, watch } = useForm<Car>({
-    defaultValues: {
-      id: carConfig.id || 0,
-      brand: carConfig.brand || "",
-      model: carConfig.model || "",
-      type: carConfig.type || "sedan",
-      price: carConfig.price || 0,
-      condition: carConfig.condition || "new",
-    },
+    defaultValues: carConfig,
   });
 
   const id = watch("id");
@@ -56,13 +41,12 @@ const CarConfigForm = ({ carConfig }: CarConfigFormProps) => {
   const model = watch("model");
   const price = watch("price");
   const type = watch("type");
-  const condition = watch("condition");
 
-  const emptyFields = !brand || !model || !type || !condition || price < 0;
+  const emptyFields = !brand || !model || !type || price < 0;
 
   const onSubmit = handleSubmit((data) => {
     console.log("Car form Submitted:", data);
-    push("/");
+    push("/details");
   });
 
   useEffect(() => {
@@ -134,39 +118,6 @@ const CarConfigForm = ({ carConfig }: CarConfigFormProps) => {
                   <Select.Positioner>
                     <Select.Content>
                       {carTypes.items.map((item) => (
-                        <Select.Item color="black" key={item.value} item={item}>
-                          {item.label}
-                          <Select.ItemIndicator />
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Positioner>
-                </Portal>
-              </Select.Root>
-            </Field.Root>
-
-            <Field.Root>
-              <Field.Label>Condition*</Field.Label>
-              <Select.Root
-                collection={carConditions}
-                value={[condition]}
-                onValueChange={(val) => {
-                  setValue("condition", val?.value[0] as Car["condition"]);
-                }}
-              >
-                <Select.HiddenSelect />
-                <Select.Control>
-                  <Select.Trigger>
-                    <Select.ValueText placeholder="Select condition" />
-                  </Select.Trigger>
-                  <Select.IndicatorGroup>
-                    <Select.Indicator />
-                  </Select.IndicatorGroup>
-                </Select.Control>
-                <Portal>
-                  <Select.Positioner>
-                    <Select.Content>
-                      {carConditions.items.map((item) => (
                         <Select.Item color="black" key={item.value} item={item}>
                           {item.label}
                           <Select.ItemIndicator />

@@ -20,11 +20,11 @@ const EditPage: FunctionComponent = () => {
 
   const defaultCar: Car = carConfig || {
     brand: "BMW",
-    condition: "bad",
     id: 20,
     model: "m5",
     price: 1800000,
     type: "suv",
+    status: "rejected",
   };
 
   return (

@@ -1,6 +1,6 @@
 export type CarType = "coupe" | "suv" | "sedan" | "microSuv";
 
-export type CarCondition = "new" | "fine" | "bad";
+export type CarStatus = "approved" | "rejected" | "edit";
 
 export interface Car {
   id: number;
@@ -8,7 +8,7 @@ export interface Car {
   model: string;
   type: CarType;
   price: number;
-  condition: CarCondition;
+  status: CarStatus;
 }
 
 export const cars: Car[] = [
@@ -18,7 +18,7 @@ export const cars: Car[] = [
     model: "Alto",
     type: "sedan",
     price: 350000,
-    condition: "new",
+    status: "approved",
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ export const cars: Car[] = [
     model: "Creta",
     type: "suv",
     price: 1050000,
-    condition: "fine",
+    status: "approved",
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ export const cars: Car[] = [
     model: "Nexon",
     type: "microSuv",
     price: 800000,
-    condition: "new",
+    status: "approved",
   },
   {
     id: 4,
@@ -42,7 +42,7 @@ export const cars: Car[] = [
     model: "Thar",
     type: "suv",
     price: 1400000,
-    condition: "fine",
+    status: "approved",
   },
   {
     id: 5,
@@ -50,7 +50,7 @@ export const cars: Car[] = [
     model: "City",
     type: "sedan",
     price: 1200000,
-    condition: "new",
+    status: "approved",
   },
   {
     id: 6,
@@ -58,7 +58,7 @@ export const cars: Car[] = [
     model: "Fortuner",
     type: "suv",
     price: 3200000,
-    condition: "new",
+    status: "rejected",
   },
   {
     id: 7,
@@ -66,7 +66,7 @@ export const cars: Car[] = [
     model: "Seltos",
     type: "suv",
     price: 1000000,
-    condition: "fine",
+    status: "approved",
   },
   {
     id: 8,
@@ -74,7 +74,7 @@ export const cars: Car[] = [
     model: "Swift",
     type: "coupe",
     price: 600000,
-    condition: "bad",
+    status: "approved",
   },
   {
     id: 9,
@@ -82,7 +82,7 @@ export const cars: Car[] = [
     model: "Verna",
     type: "sedan",
     price: 1100000,
-    condition: "fine",
+    status: "approved",
   },
   {
     id: 10,
@@ -90,6 +90,6 @@ export const cars: Car[] = [
     model: "Harrier",
     type: "suv",
     price: 1500000,
-    condition: "new",
+    status: "approved",
   },
 ];
