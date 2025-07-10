@@ -1,6 +1,6 @@
 export type CarType = "coupe" | "suv" | "sedan" | "microSuv";
 
-export type CarStatus = "approved" | "rejected";
+export type CarStatus = "pending" | "approved" | "rejected";
 
 export interface Car {
   id: number;
