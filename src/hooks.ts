@@ -24,6 +24,8 @@ export const useCarStorage = (initialCars?: Car[]) => {
     const fallback = initialCars ?? defaultCars;
     setCars(fallback);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(fallback));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateCarStatus = (id: number, status: Car["status"]) => {

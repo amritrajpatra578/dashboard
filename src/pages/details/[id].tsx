@@ -19,6 +19,8 @@ export default function EditPage() {
       const found = getCarById(id);
       setCar(found || null);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, id, cars]);
 
   if (!router.isReady || cars.length === 0 || car === null) {
