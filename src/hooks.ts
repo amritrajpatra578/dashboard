@@ -1,13 +1,12 @@
 // hooks/useCarStorage.ts
 import { useEffect, useState } from "react";
-import { Car, cars } from "@/car";
+import { Auth, Car, cars } from "@/car";
 
 const STORAGE_KEY = "cars_data";
 
 export const useCarStorage = () => {
   const [carss, setCars] = useState<Car[]>(cars);
 
-  // Load from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -19,7 +18,6 @@ export const useCarStorage = () => {
     }
   }, []);
 
-  // Update a specific car by ID
   const editCar = (updatedCar: Car) => {
     const updatedCars = carss.map((car) =>
       car.id === updatedCar.id ? updatedCar : car
@@ -28,7 +26,6 @@ export const useCarStorage = () => {
     setCars(updatedCars);
   };
 
-  // Get a car by ID
   const getCarById = (id: number): Car | undefined => {
     return carss.find((car) => car.id === id);
   };
@@ -37,5 +34,36 @@ export const useCarStorage = () => {
     cars: carss,
     editCar,
     getCarById,
+  };
+};
+
+const AUTH_STORAGE_KEY = "auth_data";
+
+export const useAuthStorage = () => {
+  const [auth, setAuth] = useState<Auth>({
+    isAllowed: false,
+    email: "",
+    pass: "",
+  });
+
+  useEffect(() => {
+    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+    if (stored) {
+      try {
+        setAuth(JSON.parse(stored));
+      } catch {
+        setAuth({ isAllowed: false, email: "", pass: "" });
+      }
+    }
+  }, []);
+
+  const updateAuth = (newAuth: Auth) => {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(newAuth));
+    setAuth(newAuth);
+  };
+
+  return {
+    auth,
+    updateAuth,
   };
 };
