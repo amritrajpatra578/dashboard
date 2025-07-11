@@ -37,6 +37,7 @@ The app is deployed using **[Vercel](https://vercel.com/)**:
 - **API**: Next.js API routes (mock in-memory)
 - **State Management**: React hooks + Context pattern
 
+
 ---
 
 ## Getting Started
@@ -105,6 +106,9 @@ Authentication data is stored using `localStorage`.
 <video src="./public/demo/screencast.mp4" controls width="100%" style="max-width: 900px; border-radius: 8px;">
   Your browser does not support the video tag.
 </video>
+
+https://github.com/user-attachments/assets/d630a014-a7f8-4aed-9cbb-19ebadf8fe63
+
 ---
 
 ## 📋 Scripts
