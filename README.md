@@ -1,40 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Car Dashboard
+
+A clean and functional **Dashboard** built with **Next.js**, **Chakra UI**, and **pnpm**, designed to manage car rental listings.
+
+---
+
+## 🌐 Deployment
+
+The app is deployed using **[Vercel](https://vercel.com/)**:
+
+🔗 [Live Demo](https://dashboard-smoky-seven-41.vercel.app/)
+
+---
+
+## ✨ Features
+
+- **Mock Login System** with route protection
+- **Server-side rendering** using `getServerSideProps`
+- **Chakra UI + Accessible Components**
+- **Paginated listing table** with:
+  Approve / Reject / Edit buttons and
+  Status filtering (`approved`, `pending`, `rejected`)
+- **Form pre-filled with listing data**
+- **LocalStorage-based persistence** using custom React hooks
+- **API Routes** to simulate backend listing actions
+- **Deployed on Vercel**
+
+---
+
+## 📦 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/)
+- **UI Library**: [Chakra UI v3](https://chakra-ui.com/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+- **Language**: TypeScript
+- **Auth Storage**: LocalStorage
+- **API**: Next.js API routes (mock in-memory)
+- **State Management**: React hooks + Context pattern
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/amritrajpatra578/dashboard.git
+cd dashboard
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 3. Run Locally
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Visit: [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🗂️ Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+```
+src/
+├── pages/              # Next.js pages
+│   ├── login.tsx
+│   ├── dashboard.tsx
+│   └── details/[id].tsx
+├── components/         # Shared UI components (Sidebar, Form, Table, etc.)
+├── hooks/              # Custom hooks (useAuthStorage, useCarStorage)
+├── car.ts              # Types & sample data for cars
+├── api/                # Next.js API routes
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧪 Credentials (Mock Login)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To access the dashboard:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- **Email**: `amritrajpatra578@example.com`
+- **Password**: `amritraj`
+
+Authentication data is stored using `localStorage`.
+
+---
+
+## 🖼️ Demo & Preview
+
+| Page         | Preview                                   |
+| ------------ | ----------------------------------------- |
+| Login Page   | ![Login](./public/demo/login.png)         |
+| Home         | ![Home](./public/demo/home.png)           |
+| Dashboard    | ![Dashboard](./public/demo/dashboard.png) |
+| Edit Listing | ![Edit](./public/demo/edit.png)           |
+
+## 📹 Demo Video
+
+<video src="./public/demo/screencast.mp4" controls width="100%" style="max-width: 900px; border-radius: 8px;">
+  Your browser does not support the video tag.
+</video>
+---
+
+## 📋 Scripts
+
+| Command      | Description                  |
+| ------------ | ---------------------------- |
+| `pnpm dev`   | Start development server     |
+| `pnpm build` | Build the app for production |
+| `pnpm start` | Start production server      |
+| `pnpm lint`  | Run ESLint checks            |
+
+---
+
+## 🙋‍♂️ Author
+
+**Amritraj Patra**
+🔗 [GitHub](https://github.com/amritrajpatra578)
+📧 [Email](mailto:amritrajpatra578@gmail.com)
+
+---
